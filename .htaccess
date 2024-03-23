@@ -1,0 +1,54 @@
+# Rediriger vers index.php
+
+#<IfModule mod_rewrite.c>
+#RewriteEngine on
+
+# Empêcher la visibilité du fichier config.php
+# RewriteCond %{THE_REQUEST} ^GET.*config [NC]
+# RewriteRule (.*?)config\.php/*(.*) /$1$2 [R=301,NE,L]
+
+# Empêcher la visite du dossier SRC de notre projet
+# RewriteCond %{THE_REQUEST} ^GET.*src [NC]
+# RewriteRule (.*?)src*(.*) / [R=301,NE,L]
+
+# Rediriger toutes les urls qui iraient ailleurs que dans le dossier public vers le dossier public :
+
+#RewriteCond %{REQUEST_URI} !^/cours/Brief-Todolist/App/
+#RewriteRule ^(.*)$ /cours/Brief-Todolist/App/$1 [L]
+#</IfModule>
+
+
+
+#<IfModule mod_rewrite.c>
+ #   RewriteEngine On
+ #   RewriteBase /cours/Brief-Todolist/
+
+    # Rewrite URLs to remove index.php for all URLs except index.php
+  #  RewriteCond %{REQUEST_URI} !^/cours/Brief-Todolist/index\.php [NC]
+    #RewriteCond %{REQUEST_FILENAME} !-d
+   # RewriteCond %{REQUEST_FILENAME} !-f
+    #RewriteRule ^(.*)$ App/Views/task.php?/$1 [L,QSA]
+
+#</IfModule>
+
+<IfModule mod_rewrite.c>
+    RewriteEngine On
+    RewriteBase /cours/Brief-Todolist/
+
+    # Redirect /cours/Brief-Todolist/ to /cours/Brief-Todolist/App/Views/
+    RewriteRule ^$ public/ [L]
+
+    # Redirect all other requests to App/Views/
+    RewriteCond %{REQUEST_FILENAME} !-f
+    RewriteCond %{REQUEST_FILENAME} !-d
+    RewriteRule ^(.*)$ public/$1 [L]
+</IfModule>
+
+# <IfModule mod_rewrite.c>
+#   RewriteBase /cours/Brief-Todolist/ /
+#   RewriteCond %{REQUEST_URI} !\.(.*)$ [NC]
+#   RewriteRule   (.*)  /cours/Brief-Todolist/index.php
+
+# </IfModule>
+
+

@@ -1,0 +1,60 @@
+
+ Brief-Todolist/
+│
+├── App/
+│   ├── controllers/
+│   │   ├── UserController.php
+│   │   │─  categoryController
+│   │   │─  PriorityController
+│   │   └── TaskController.php
+│   │ 
+│   ├── models/
+│   │   ├── UserModel.php
+│   │   │─ PriorityModel
+│   │   │─ CategoryModel
+│   │   └── TaskModel.php
+│   ├── DbConnection
+│   │   ├──DbConnection.php
+│   │
+│   ├─── public/
+│   │   │
+│   │   │─ index.php
+│   │   │─ .htaccess
+│   │
+│   │
+│   ├── views/
+│   │   
+│   │   ├── registration.php
+│   │   ├── login.php
+│   │   ├── profile.php
+│   │   ├── task_create.php
+│   │   ├─── task_list.php
+│   │   ├─── category
+│   │   ├── css/
+│   │   │   └── style.css
+│   │   └── js/
+│            └── script.js
+│
+│
+├───── router.php
+│   
+│   
+│        
+├── .htaccess
+│   
+│  
+│   
+├───── config/
+│      │   
+│      │   
+│      └── database.php
+│   
+│   
+│   
+├───── init.php
+│   
+├───── index.php
+│   
+│   
+└── autoload.php
+
