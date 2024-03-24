@@ -1,33 +1,3 @@
-<?php
-require_once __DIR__ . '/../../init.php';
-
-use App\Repositories\CategoryRepository;
-use App\Repositories\PriorityRepository;
-if (isset($_SESSION['user'])) {
-    $loggedInUser = $_SESSION['user'];
-    $loggedInUserName = $loggedInUser['last_name'];
-} else {
-    header("Location: /cours/Brief-Todolist/App/Views/login.php");
-    exit;
-}
-
-$priorityRepository = new PriorityRepository;
-$priorities = $priorityRepository->getAllPriorities();
-$categoryRepository = new CategoryRepository();
-$categories = $categoryRepository->getAllCategories();
-?>
-<!DOCTYPE html>
-<html lang="en">
-
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Create New Task</title>
-</head>
-
-<body class="bg-gray-100 min-h-screen flex items-center justify-center">
-    <div class="max-w-md w-full bg-white p-8 rounded-lg shadow-md">
-        <h1 class="text-2xl font-bold mb-4">Create New Task</h1>
 
         <form action="/cours/Brief-Todolist/task/store" method="post">
                 <div class="mb-4">
@@ -67,9 +37,7 @@ $categories = $categoryRepository->getAllCategories();
             </div>
 
             <div class="mb-4">
-                <label for="user-id" class="block text-sm font-medium text-gray-700">Assigned User:</label>
-                <label><?= $loggedInUserName ?></label>
-                <input type="hidden" name="user_id" value="<?= $loggedInUser['user_id'] ?>">
+                <input type="hidden" name="user_id" value="<?= $_SESSION['user']['user_id'] ?>">
             </div>
             <div class="mb-4">
     <label for="categories" class="block text-sm font-medium text-gray-700">Categories:</label>
@@ -87,7 +55,4 @@ $categories = $categoryRepository->getAllCategories();
                 class="w-full px-4 py-2 border border-transparent rounded-md shadow-sm text-sm font-medium text-white bg-indigo-600 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500"
                 type="submit">Create Task</button>
         </form>
-    </div>
-</body>
-<script src="https://cdn.tailwindcss.com"></script>
-</html>
+    

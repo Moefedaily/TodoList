@@ -1,60 +1,51 @@
-
- Brief-Todolist/
+Brief-Todolist/
 │
 ├── App/
 │   ├── controllers/
 │   │   ├── UserController.php
-│   │   │─  categoryController
-│   │   │─  PriorityController
+│   │   ├── CategoryController.php
+│   │   ├── PriorityController.php
 │   │   └── TaskController.php
 │   │ 
 │   ├── models/
 │   │   ├── UserModel.php
-│   │   │─ PriorityModel
-│   │   │─ CategoryModel
+│   │   ├── PriorityModel.php
+│   │   ├── CategoryModel.php
 │   │   └── TaskModel.php
-│   ├── DbConnection
-│   │   ├──DbConnection.php
+│   ├── DbConnection/
+│   │   └── DbConnection.php
 │   │
-│   ├─── public/
-│   │   │
-│   │   │─ index.php
-│   │   │─ .htaccess
-│   │
+│   ├── public/
+│   │   ├── index.php
+│   │   └── css/
+│   │       └── style.css
+│   │   ├── .htaccess
+│   │   └── includes/
+│        ├── header.php
+│        └── footer.php
 │   │
 │   ├── views/
-│   │   
 │   │   ├── registration.php
 │   │   ├── login.php
 │   │   ├── profile.php
 │   │   ├── task_create.php
-│   │   ├─── task_list.php
-│   │   ├─── category
-│   │   ├── css/
-│   │   │   └── style.css
-│   │   └── js/
-│            └── script.js
-│
-│
-├───── router.php
+│   │   ├── task_list.php
+│   │   ├── category/
+│   │   └── css/
+│   │       └── style.css
+│   └── js/
+│        ├── login.js
+│        └── register.js
+│ 
+├── router.php
 │   
-│   
-│        
 ├── .htaccess
 │   
-│  
+├── config/
+│   └── database.php
 │   
-├───── config/
-│      │   
-│      │   
-│      └── database.php
+├── init.php
 │   
-│   
-│   
-├───── init.php
-│   
-├───── index.php
-│   
+├── index.php
 │   
 └── autoload.php
-

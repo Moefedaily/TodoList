@@ -22,7 +22,6 @@ class TaskController
     public function index()
     {
         $tasks = $this->taskRepository->getAllTasks();
-        require_once __DIR__ . '/../Views/task.php';
         
     }
 
@@ -63,7 +62,6 @@ class TaskController
         $categories = $this->categoryRepository->getAllCategories();
         $taskCategories = $taskRepository->getTaskCategories($id);
 
-        require_once __DIR__ . '/../Views/task_edit.php';
     }
 
     public function update(Task $task, array $categoryIds)

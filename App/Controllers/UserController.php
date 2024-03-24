@@ -11,10 +11,29 @@ class UserController {
     public function __construct($db) {
         $this->userRepository = new UserRepository($db);
     }
-
-    public function register(User $user) {
+    public function register(User $user, $confirmPassword)
+    {
+        if ($user->getPassword() !== $confirmPassword) {
+            echo json_encode(['error' => 'Passwords do not match']);
+            exit;
+        }
+    
+        $existingUser = $this->userRepository->getUserByEmail($user->getEmail());
+    
+        if ($existingUser) {
+            echo json_encode(['error' => 'Email already exists']);
+            exit;
+        }
+    
         $userId = $this->userRepository->createUser($user);
-        echo json_encode(['success' => true]);    
+    
+        if ($userId) {
+            echo json_encode(['success' => true]);
+            exit;
+        } else {
+            echo json_encode(['error' => 'Failed to register user']);
+            exit;
+        }
     }
 
 public function login(User $user)
@@ -48,30 +67,40 @@ public function login(User $user)
         exit();
     }
     
-
-    public function updateProfile(User $user)
+    public function updateProfile(User $user, $confirmPassword)
     {
         $userId = $user->getUser_id();
         $existingUser = $this->userRepository->getUserById($userId);
     
-        if ($existingUser) {
-            $isUpdated = $this->userRepository->updateUser($user);
+        if (!$existingUser) {
+            $_SESSION['error_message'] = 'User not found.';
+            header('Location: /cours/Brief-Todolist/profile/edit/' . $userId);
+            exit;
+        }
     
-            if ($isUpdated) {
-                $_SESSION['user'] = [
-                    'user_id' => $user->getUser_id(),
-                    'first_name' => $user->getFirst_name(),
-                    'last_name' => $user->getLast_name(),
-                    'email' => $user->getEmail(),
-                ];
+        $newPassword = $user->getPassword();
+        if ($confirmPassword !== $newPassword) {
+            $_SESSION['error_message'] = 'Passwords do not match.';
+            header('Location: /cours/Brief-Todolist/profile/edit/' . $userId);
+            exit;
+        }
     
-                header('Location: /cours/Brief-Todolist/profile');
-                exit();
-            } else {
-                echo "Failed to update user profile.";
-            }
+        $isUpdated = $this->userRepository->updateUser($user);
+    
+        if ($isUpdated) {
+            $_SESSION['user'] = [
+                'user_id' => $user->getUser_id(),
+                'first_name' => $user->getFirst_name(),
+                'last_name' => $user->getLast_name(),
+                'email' => $user->getEmail(),
+            ];
+            $_SESSION['success_message'] = 'Profile updated successfully.';
+            header('Location: /cours/Brief-Todolist/profile');
+            exit;
         } else {
-            echo "User not found.";
+            $_SESSION['error_message'] = 'Failed to update user profile.';
+            header('Location: /cours/Brief-Todolist/profile/edit/' . $userId);
+            exit;
         }
     }
 

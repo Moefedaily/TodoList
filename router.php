@@ -44,13 +44,12 @@ switch ($route) {
         }
         break;
 
-    case str_contains($route, "task/edit"):
+    case str_contains($route,"task/edit"):
         $taskId = end($routeParts);
         if (!empty($taskId)) {
             $taskController->edit($taskId);
         } else {
             http_response_code(405);
-            echo 'Method Not Allowed "task-edit"';
         }
         break;
 
@@ -103,9 +102,7 @@ switch ($route) {
        /****************************profile-router****************************/     
     
     case 'profile':
-        if (isset($_SESSION['user'])) {
-            require_once 'App/Views/profile.php';
-        } else {
+        if (!isset($_SESSION['user'])) {
             header('Location: /cours/Brief-Todolist/login');
             exit;
         }
@@ -115,8 +112,10 @@ switch ($route) {
         $routeParts = explode('/', $route);
         $userId = end($routeParts);
         if (!empty($userId)) {
-        require_once 'App/Views/profile_update.php';
-        } 
+        $errorMessage = isset($_SESSION['error_message']) ? $_SESSION['error_message'] : null;
+        $successMessage = isset($_SESSION['success_message']) ? $_SESSION['success_message'] : null;
+        unset($_SESSION['error_message'], $_SESSION['success_message']);
+        }
         break;
 
     case  'profile/update':
@@ -126,6 +125,8 @@ switch ($route) {
             $last_name = $_POST['last_name'];
             $email = $_POST['email'];
             $password = $_POST['password'];
+            $confirmPassword = $_POST['confirm_password'];
+
         
             $user = new User();
             $user->setUser_id($user_id);
@@ -133,7 +134,7 @@ switch ($route) {
             $user->setLast_name($last_name);
             $user->setEmail($email);
             $user->setPassword($password);
-            $userController->updateProfile($user);
+            $userController->updateProfile($user,$confirmPassword);
         } else {
             http_response_code(405);
             echo 'Method Not Allowed profile_update';
@@ -153,36 +154,29 @@ switch ($route) {
         }
         break;
 
-    case 'register':
         case 'register':
             if ($method === 'POST') {
                 $user = new User($_POST);
-                $userController->register($user);
-                echo json_encode(['success' => true]);
-            } else {
-                require_once 'App/Views/register.php';
+                $confirmPassword = $_POST['confirm_password'];
+                $email = $_POST['email'];
+                $userController->register($user, $confirmPassword,$email);
             }
             break;
-    case 'login':
-        if ($method === 'POST') {
-            $user = new User($_POST);
-            $result = $userController->login($user);
-    
-            if ($result === true) {
-                echo json_encode(['success' => true]);
-            } else {
-                echo json_encode(['success' => false, 'error' => $result]);
+        
+        case 'login':
+            if ($method === 'POST') {
+                $user = new User($_POST);
+                $result = $userController->login($user);
+        
+                if ($result === true) {
+                    echo json_encode(['success' => true]);
+                } else {
+                    echo json_encode(['success' => false, 'error' => $result]);
+                }
             }
-        } else {
-            require_once 'App/Views/login.php';
-        }
-        break;
+            break;
     case 'logout':
         $userController->logout();
         break;
-    default:
-        http_response_code(404);
-        echo 'Page not found';
-        break;
-            
+ 
 }

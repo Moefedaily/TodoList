@@ -92,10 +92,14 @@ class UserRepository
     }
     
 
-
     public function deleteUser($user_Id)
     {
         try {
+            $sql = "DELETE FROM tdl_task_has_category WHERE task_id IN (SELECT task_id FROM tdl_task WHERE user_id = :user_id)";
+            $stmt = $this->db->prepare($sql);
+            $stmt->bindParam(':user_id', $user_Id);
+            $stmt->execute();
+            
             $sql = "DELETE FROM tdl_task WHERE user_id = :user_id";
             $stmt = $this->db->prepare($sql);
             $stmt->bindParam(':user_id', $user_Id);
@@ -112,5 +116,5 @@ class UserRepository
             return false;
         }
     }
-}
+}    
 ?>

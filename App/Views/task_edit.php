@@ -6,8 +6,9 @@ use App\Repositories\TaskRepository;
 use App\Repositories\PriorityRepository;
 use App\Repositories\UserRepository;
 
-$taskId = isset($_GET['userId']);
-
+$route = str_replace('/cours/Brief-Todolist/', '', $_SERVER['REQUEST_URI']);
+$routeParts = explode('/', $route);
+$taskId = end($routeParts);
 if ($taskId) {
     $taskRepository = new TaskRepository();
     $task = $taskRepository->getTaskById($taskId);
