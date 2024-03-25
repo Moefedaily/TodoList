@@ -1,20 +1,34 @@
 <?php
-require_once __DIR__ . '/../../init.php';
+require_once __DIR__ . "/../../init.php";
 
 use App\Repositories\CategoryRepository;
 use App\Repositories\PriorityRepository;
 use App\Repositories\TaskRepository;
+function priorityColorClass($priorityId)
+{
+    switch ($priorityId) {
+        case 3:
+            return "bg-red-500 text-white";
+        case 1:
+            return "bg-yellow-500 text-white";
+        case 2:
+            return "bg-green-500 text-white";
+        default:
+            return "bg-gray-500 text-white";
+    }
+}
 
-if (isset($_SESSION['user'])) {
-    $user_id = $_SESSION['user']['user_id'];
+if (isset($_SESSION["user"])) {
+    $user_id = $_SESSION["user"]["user_id"];
     $tasksRepo = new TaskRepository();
     $priorityRepository = new PriorityRepository();
     $tasks = $tasksRepo->getTasksByUserId($user_id);
     $priorities = $priorityRepository->getAllPriorities();
     $categoryRepository = new CategoryRepository();
     $categories = $categoryRepository->getAllCategories();
-} 
+}
 ?>
+
 
 <!DOCTYPE html>
 <html lang="en">
@@ -23,6 +37,7 @@ if (isset($_SESSION['user'])) {
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Todo List</title>
     <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
+    <script src="https://kit.fontawesome.com/047f41f5d9.js" crossorigin="anonymous"></script>
 
 </head>
 <body class="bg-gray-100">
@@ -43,28 +58,43 @@ if (isset($_SESSION['user'])) {
                     </button>
                 </div>
                 <div class="p-6 space-y-6">
-                    <?php include 'task_create.php'; ?>
+                    <?php include "task_create.php"; ?>
                 </div>
             </div>
         </div>
     </div>
-
-    <ul class="space-y-4">
-        <?php foreach ($tasks as $task): ?>
-            <li class="border border-gray-200 p-4 rounded-lg shadow-md">
-                <h3 class="text-xl font-semibold mb-2"><?php echo $task->getTitle(); ?></h3>
-                <p class="text-gray-700 mb-2"><?php echo $task->getDescription(); ?></p>
-                <p class="text-gray-700 mb-2">Due Date: <?php echo $task->getDueto(); ?></p>
-                <p class="text-gray-700 mb-2">Priority: <?php echo $priorityRepository->getPriorityNameById($task->getPriority_id()); ?></p>
-                <p class="text-gray-700 mb-2">Completed: <?php echo $task->getCompleted() ? 'Completed' : 'In progress'; ?></p>
-                <a href="/cours/Brief-Todolist/task/edit/<?php echo $task->getTask_id(); ?>" class="text-blue-700 hover:text-blue-950 mr-2">Edit</a>
-                <a href="/cours/Brief-Todolist/task/delete/<?php echo $task->getTask_id(); ?>" class="text-red-700 hover:text-red-950 mr-2">Delete</a>
+    <ul class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4">
+    <?php foreach ($tasks as $task): ?>
+        <li class="rounded-lg shadow-md p-4 relative <?php echo priorityColorClass(
+            $task->getPriority_id()
+        ); ?>">
+            <div class="absolute top-0 right-0 mr-2 mt-2">
+                <a href="/cours/Brief-Todolist/task/edit/<?php echo $task->getTask_id(); ?>" class="text-white hover:text-gray-300"><i class="fas fa-edit"></i></a>
+                <a href="/cours/Brief-Todolist/task/delete/<?php echo $task->getTask_id(); ?>" class="text-white hover:text-gray-300 ml-2"><i class="fas fa-trash-alt"></i></a>
                 <?php if (!$task->getCompleted()): ?>
-                    <a href="/cours/Brief-Todolist/task/complete/<?php echo $task->getTask_id(); ?>"class="text-green-700 hover:text-orange-950 mr-2" onclick="return confirm('Are you sure you want to mark this task as completed?')">Mark as Completed</a>
+                    <a href="/cours/Brief-Todolist/task/complete/<?php echo $task->getTask_id(); ?>" class="text-white hover:text-gray-300 ml-2" onclick="return confirm('Are you sure you want to mark this task as completed?')">
+                        <i class="fas fa-check-circle"></i>
+                    </a>
                 <?php endif; ?>
-            </li>
-        <?php endforeach; ?>
-    </ul>
+            </div>
+            <h3 class="text-xl font-semibold mb-2 text-white"><?php echo $task->getTitle(); ?></h3>
+            <p class="text-gray-200 mb-2 description hidden"><?php echo $task->getDescription(); ?></p>
+            <div class="flex justify-between mt-4">
+                <div>
+                    <p class="text-gray-200">Due Date: <?php echo $task->getDueto(); ?></p>
+                    <p class="text-gray-200">Priority: <?php echo $priorityRepository->getPriorityNameById(
+                        $task->getPriority_id()
+                    ); ?></p>
+                </div>
+                <div class="text-right">
+                    <p class="text-gray-200">Completed: <?php echo $task->getCompleted()
+                        ? "Completed"
+                        : "In progress"; ?></p>
+                </div>
+            </div>
+        </li>
+    <?php endforeach; ?>
+</ul>
 </div>
 </body>
 <script src="App/Views/js/script.js"></script>

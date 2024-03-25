@@ -33,8 +33,8 @@ require_once __DIR__ . '/../init.php';
             include __DIR__ . '../../App/Views/profile_update.php';
             break;
         default:
-        include __DIR__ . '../../App/Views/task.php';
-        break;
+            include __DIR__ . '../../App/Views/task.php';
+            break;
     }
     ?>
 </div>

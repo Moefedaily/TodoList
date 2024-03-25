@@ -32,3 +32,15 @@ modalCloseBtns.forEach(function (btn) {
     modal.classList.add('hidden');
   });
 });
+
+document.querySelectorAll('.rounded-lg').forEach(item => {
+  item.addEventListener('mouseover', event => {
+    const descriptionElement = item.querySelector('.description');
+    descriptionElement.classList.remove('hidden');
+  });
+
+  item.addEventListener('mouseout', event => {
+    const descriptionElement = item.querySelector('.description');
+    descriptionElement.classList.add('hidden');
+  });
+});
