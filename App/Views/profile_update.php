@@ -18,6 +18,8 @@ if (isset($_SESSION['user'])) {
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Edit Profile</title>
+    <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
+
 </head>
 <body class="bg-gray-100">
     <div class="max-w-lg mx-auto mt-10 p-6 bg-white rounded shadow-md">
@@ -50,6 +52,6 @@ if (isset($_SESSION['user'])) {
         </form>
     </div>
 </body>
-<script src="https://cdn.tailwindcss.com"></script>
 </html>
+
 

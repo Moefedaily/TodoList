@@ -16,13 +16,13 @@ Brief-Todolist/
 │   │   └── DbConnection.php
 │   │
 │   ├── public/
-│   │   ├── index.php
-│   │   └── css/
-│   │       └── style.css
+│   │   └── index.php
 │   │   ├── .htaccess
 │   │   └── includes/
-│        ├── header.php
-│        └── footer.php
+│           ├── header.php
+│           └── footer.php
+│   │   
+│   │  
 │   │
 │   ├── views/
 │   │   ├── registration.php

@@ -13,10 +13,7 @@ if (isset($_SESSION['user'])) {
     $priorities = $priorityRepository->getAllPriorities();
     $categoryRepository = new CategoryRepository();
     $categories = $categoryRepository->getAllCategories();
-} else {
-    header("Location: /cours/Brief-Todolist/App/Views/login.php");
-    exit;
-}
+} 
 ?>
 
 <!DOCTYPE html>
@@ -25,6 +22,8 @@ if (isset($_SESSION['user'])) {
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Todo List</title>
+    <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
+
 </head>
 <body class="bg-gray-100">
 <div class="container mx-auto p-4">
@@ -68,6 +67,5 @@ if (isset($_SESSION['user'])) {
     </ul>
 </div>
 </body>
-<script src="https://cdn.tailwindcss.com"></script>
 <script src="App/Views/js/script.js"></script>
 </html>

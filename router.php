@@ -22,6 +22,13 @@ switch ($route) {
 
        /****************************task-router****************************/     
 
+       case '':
+        if (isset($_SESSION['user'])) {
+        $taskController->index();
+        } else {
+            header('Location: /cours/Brief-Todolist/login');
+        }
+        break;
     case 'task':
         if (isset($_SESSION['user'])) {
         $taskController->index();
@@ -109,6 +116,11 @@ switch ($route) {
         break;
 
     case str_contains($route, "profile/edit"):
+        if (!isset($_SESSION['user'])) {
+            header('Location: /cours/Brief-Todolist/login');
+            exit;
+        }
+        else {
         $routeParts = explode('/', $route);
         $userId = end($routeParts);
         if (!empty($userId)) {
@@ -116,6 +128,7 @@ switch ($route) {
         $successMessage = isset($_SESSION['success_message']) ? $_SESSION['success_message'] : null;
         unset($_SESSION['error_message'], $_SESSION['success_message']);
         }
+    }
         break;
 
     case  'profile/update':

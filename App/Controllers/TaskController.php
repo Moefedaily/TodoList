@@ -28,7 +28,6 @@ class TaskController
     public function create()
     {
         $categories = $this->categoryRepository->getAllCategories();
-        require_once __DIR__ . '/../Views/task_create.php';
     }
 
     public function store(Task $task, array $categoryIds)
@@ -47,21 +46,36 @@ class TaskController
 
     
 
-        public function edit($id)
+    public function edit($taskId)
     {
+        if (!isset($_SESSION['user'])) {
+            header('Location: /cours/Brief-Todolist/login');
+            exit;
+        }
+    
         $taskRepository = new TaskRepository();
-        $task = $taskRepository->getTaskById($id);
-
-        $userRepository = new UserRepository();
-        $userId = $task->getUser_id();
-        $user = $userRepository->getUserById($userId);
-
-        $priorityRepository = new PriorityRepository();
-        $priorities = $priorityRepository->getAllPriorities();
-
-        $categories = $this->categoryRepository->getAllCategories();
-        $taskCategories = $taskRepository->getTaskCategories($id);
-
+        $task = $taskRepository->getTaskById($taskId);
+    
+        if ($task) {
+            // Check if the task belongs to the logged-in user
+            $userId = $_SESSION['user']['user_id'];
+            if ($task->getUser_id() != $userId) {
+                header('Location: /cours/Brief-Todolist/login');
+                return;
+            }
+    
+            $userRepository = new UserRepository();
+            $user = $userRepository->getUserById($userId);
+    
+            $priorityRepository = new PriorityRepository();
+            $priorities = $priorityRepository->getAllPriorities();
+    
+            $categories = $this->categoryRepository->getAllCategories();
+            $taskCategories = $taskRepository->getTaskCategories($taskId);
+    
+        } else {
+            header('Location: /cours/Brief-Todolist/login');
+        }
     }
 
     public function update(Task $task, array $categoryIds)

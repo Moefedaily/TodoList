@@ -10,6 +10,7 @@ if (isset($_SESSION['user'])) {
     $user->setLast_name($userData['last_name']);
     $user->setEmail($userData['email']);
 
+}
     ?>
     <!DOCTYPE html>
     <html lang="en">
@@ -38,31 +39,3 @@ if (isset($_SESSION['user'])) {
         </div>
     </body>
     </html>
-    <?php
-} else {
-    ?>
-    <!DOCTYPE html>
-    <html lang="en">
-    <head>
-        <meta charset="UTF-8">
-        <meta name="viewport" content="width=device-width, initial-scale=1.0">
-        <title>Profile</title>
-        <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
-    </head>
-    <body>
-        <div class="flex min-h-screen items-center justify-center bg-gray-100">
-            <div class="max-w-md w-full space-y-8 p-8 bg-white rounded-lg shadow-lg">
-                <div>
-                    <h2 class="text-3xl font-bold text-center text-gray-800">Profile</h2>
-                </div>
-                <p class="text-lg text-red-500 text-center">User not found. Please login.</p>
-                <div class="mt-6">
-                    <a href="cours/Brief-Todolist/login" class="text-lg text-blue-600 font-semibold hover:underline">Login</a>
-                </div>
-            </div>
-        </div>
-    </body>
-    </html>
-    <?php
-}
-?>

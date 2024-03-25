@@ -29,6 +29,8 @@ if ($taskId) {
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Edit Task</title>
+    <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
+
 </head>
 <body>
 
@@ -113,11 +115,7 @@ if ($taskId) {
 
             </div>
             <div>
-
             <div>
-                <div class="flex items-center justify-between">
-                    <label for="user_id" class="block text-sm font-medium leading-6 text-gray-900"><?php echo $user->getFirst_name(); ?></label>
-                </div>
                 <div class="mt-2">
                 <input type="hidden" name="user_id" value="<?php echo $userId; ?>">
                 </div>
@@ -139,5 +137,4 @@ if ($taskId) {
     </div>
 
 </body>
-<script src="https://cdn.tailwindcss.com"></script>
 </html>
